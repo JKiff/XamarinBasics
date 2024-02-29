@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+			 x:Class="App1.Views.CoffeeEquipmentPage"
+			 xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:model="clr-namespace:App1.Models" 
+			 xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
+			 xmlns:viewmodels="clr-namespace:App1.ViewModels"
+			 x:Name="ChorePage"
+			 BackgroundColor="White">
+	<ContentPage.BindingContext>
+		<viewmodels:CoffeeEquipmentViewModel/>
+	</ContentPage.BindingContext>
+	<Grid Padding="0,0,0,0"
+		  RowSpacing="0">
+		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+	<ListView	
+		Grid.Row="0"
+		BackgroundColor="Transparent"
+		SelectedItem="{Binding SelectedChore, Mode=TwoWay}"
+		ItemsSource="{Binding Chores1}"
+		IsPullToRefreshEnabled="True"
+		IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+		RefreshCommand="{Binding RefreshCommand}"
+		HasUnevenRows="True"
+		SeparatorVisibility="None"
+		Margin="5,5,5,0">
+		<ListView.ItemTemplate>
+			<DataTemplate x:DataType="model:ChoreDisplay">
+				<ViewCell>
+				<Grid
+					Padding="0,0,0,0"
+					>
+					<Frame
+						CornerRadius="0"
+						HasShadow="False"
+						BorderColor="LightGray"
+						>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<CheckBox
+								HorizontalOptions="Center"
+								VerticalOptions="Center"
+								Grid.Column="0"
+								Grid.RowSpan="2"
+								></CheckBox>
+								
+						<Label Grid.Column="1"
+						FontSize="Title"
+						Text="{Binding Name}"/>
+						<Label 
+							Grid.Column="1"
+							Grid.Row="1"
+							Text="{Binding Notes}"
+							IsVisible="False"/>
+						
+						</Grid>
+					</Frame>
+
+					</Grid>
+				</ViewCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
+		
+	</ListView>
+
+		<Frame
+			BorderColor="DarkBlue"
+			Margin="5,0,5,0"
+			Grid.Row="1"
+			VerticalOptions="End"
+			BackgroundColor="LightGray">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Entry HorizontalOptions="Fill"
+					VerticalOptions="Center"
+					Grid.Column="0"
+					   BackgroundColor="White"
+					Placeholder="Enter your chore..."
+					Text="{Binding NewChoreTextProperty}"/>
+				<Button
+					Grid.Column="1"
+					Text="Add"
+					Command="{Binding addNewChoreCommand}"/>
+
+
+			</Grid>
+		</Frame>
+
+
+	</Grid>
+</ContentPage>
