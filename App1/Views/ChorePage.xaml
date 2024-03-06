@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage 
-			 x:Class="App1.Views.CoffeeEquipmentPage"
+			 x:Class="App1.Views.ChoreContentPage"
 			 xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:model="clr-namespace:App1.Models" 
@@ -9,7 +9,7 @@
 			 x:Name="ChorePage"
 			 BackgroundColor="White">
 	<ContentPage.BindingContext>
-		<viewmodels:CoffeeEquipmentViewModel/>
+		<viewmodels:ChoreViewModel/>
 	</ContentPage.BindingContext>
 	<Grid Padding="0,0,0,0"
 		  RowSpacing="0">
@@ -22,7 +22,7 @@
 		Grid.Row="0"
 		BackgroundColor="Transparent"
 		SelectedItem="{Binding SelectedChore, Mode=TwoWay}"
-		ItemsSource="{Binding Chores1}"
+		ItemsSource="{Binding Chores1, Mode=TwoWay}"
 		IsPullToRefreshEnabled="True"
 		IsRefreshing="{Binding IsBusy, Mode=OneWay}"
 		RefreshCommand="{Binding RefreshCommand}"
@@ -36,7 +36,7 @@
 					Padding="0,0,0,0"
 					>
 					<Frame
-						CornerRadius="0"
+						CornerRadius="10"
 						HasShadow="False"
 						BorderColor="LightGray"
 						>
@@ -64,7 +64,7 @@
 							Grid.Column="1"
 							Grid.Row="1"
 							Text="{Binding Notes}"
-							IsVisible="False"/>
+							IsVisible="True"/>
 						
 						</Grid>
 					</Frame>

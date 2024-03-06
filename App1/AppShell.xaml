@@ -79,7 +79,7 @@
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
     <FlyoutItem Title="Equipment" Icon="icon_about.png">
-        <ShellContent Route="EquipmentPage" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" />
+        <ShellContent Route="ChorePage" ContentTemplate="{DataTemplate local:ChoreContentPage}" />
     </FlyoutItem>
     
 

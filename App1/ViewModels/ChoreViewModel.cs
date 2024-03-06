@@ -12,24 +12,33 @@ using App1.Models;
 using System.Runtime.InteropServices;
 using Xamarin.Forms;
 using System.Text.RegularExpressions;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace App1.ViewModels
 {
-	public class CoffeeEquipmentViewModel : BaseViewModel
+	public class ChoreViewModel : BaseViewModel
 	{
-		private static readonly Regex sWhitespace = new Regex(@"\s+");
 		string newChoreText = "";
-		public string NewChoreTextProperty { get { return newChoreText; } set { newChoreText = value; } }
-		public ObservableRangeCollection<ChoreDisplay> Chores1 { get; }
+		public string NewChoreTextProperty { get { return newChoreText; } set { newChoreText = value; OnPropertyChanged(); } }
+		public ObservableCollection<ChoreDisplay> Chores1 { get; set; }
+
+
 		public AsyncCommand RefreshCommand { get; }
 		ChoreDisplay selectedChore;
 		ChoreDisplay previouslySelectedChore;
-		public ChoreDisplay SelectedChore { get => selectedChore; set
+
+		public ChoreDisplay SelectedChore { 
+			get => selectedChore; 
+			set
 			{
 				if (value != null)
 				{
+					if (previouslySelectedChore != null) previouslySelectedChore.IsExpanded = false;
 					previouslySelectedChore = (ChoreDisplay)value;
-					Application.Current.MainPage.DisplayAlert("aoeu", previouslySelectedChore.Name,"ok");
+					previouslySelectedChore.IsExpanded = true;
+					previouslySelectedChore.IncrementTitle();
+					Application.Current.MainPage.DisplayAlert("aoeu", previouslySelectedChore.Name + previouslySelectedChore.IsExpanded,"ok");
 					value = null;
 				}
 				selectedChore = value;
@@ -37,13 +46,13 @@ namespace App1.ViewModels
 
 			}
 		}
-		public CoffeeEquipmentViewModel()
+		public ChoreViewModel()
 		{
-
-			Chores1 = new ObservableRangeCollection<ChoreDisplay>
+			//Chores1.CollectionChanged += Chores_CollectionChanged;
+			Chores1 = new ObservableCollection<ChoreDisplay>
 			{
 				new ChoreDisplay("thing1", "Noteaoaoentuh"),
-				new ChoreDisplay("thnig52", "note 222"),
+				new ChoreDisplay("thing52", "note 222"),
 				new ChoreDisplay("thing32", "note1"),
 				new ChoreDisplay("thing", "thing")
 			};
@@ -51,6 +60,26 @@ namespace App1.ViewModels
 			RefreshCommand = new AsyncCommand(Refresh);
 			addNewChoreCommand = new MvvmHelpers.Commands.Command(AddChore);
 		}
+
+		private void Chores_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (e.OldItems != null)
+			{
+				foreach (INotifyPropertyChanged item in e.OldItems)
+					item.PropertyChanged -= item_PropertyChanged;
+			}
+			if (e.NewItems != null)
+			{
+				foreach (INotifyPropertyChanged item in e.NewItems)
+					item.PropertyChanged += item_PropertyChanged;
+			}
+		}
+
+	 private void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			Application.Current.MainPage.DisplayAlert("property changing", "poop", "ok");
+		}
+
 		async Task Refresh()
 		{
 			IsBusy = true;
@@ -66,10 +95,11 @@ namespace App1.ViewModels
 				var chore = new ChoreDisplay(newChoreText);
 				Chores1.Add(chore);
 				Application.Current.MainPage.DisplayAlert("adding chore", chore.Name, "ok");
+				NewChoreTextProperty = "";
 			}
 			else
 			{
-				Application.Current.MainPage.DisplayAlert("text cannot be empty", "Poop", "ok");
+				Application.Current.MainPage.DisplayAlert("text cannot be empty", "chore entry", "ok");
 
 			}
 		}

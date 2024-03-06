@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace App1.Models
@@ -14,18 +15,26 @@ namespace App1.Models
 			this.notes = notes;
 		}
 	}
-	public class ChoreDisplay
+	public class ChoreDisplay : INotifyPropertyChanged
 	{
 		Chore chore;
 		bool isExpanded;
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		public bool IsExpanded
 		{
 			get => isExpanded;
 			set => isExpanded = value;
 		}
+		public void IncrementTitle()
+		{
+			chore.title += "-";
+		}
 		public ChoreDisplay(string title, string notes)
 		{
 			chore = new Chore(title, notes);
+			IsExpanded = false;
 		}
 		public ChoreDisplay(string title) : this(title, "") { }
 		public string Name

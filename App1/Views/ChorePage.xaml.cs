@@ -11,12 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace App1.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CoffeeEquipmentPage : ContentPage
+	public partial class ChoreContentPage : ContentPage
 	{
-		public CoffeeEquipmentPage()
+		public ChoreContentPage()
 		{
 			InitializeComponent();
-			BindingContext = new CoffeeEquipmentViewModel();
+			BindingContext = new ChoreViewModel();
 		}
 
 	}
